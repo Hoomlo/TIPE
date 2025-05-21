@@ -1,6 +1,7 @@
 from Structure_creature.points import Points
 from Structure_creature.lien import Lien
 from vecteurs import Vect
+import random as rd
 
 
 class Creature:
@@ -9,6 +10,10 @@ class Creature:
         
         self.list_of_points = []
         self.list_of_link = []
+        
+        self.horloge = rd.random() * 10
+        self.nb_position = rd.randint(2, 10)
+        self.time_between_pos = self.horloge / self.nb_position
         
     def update_list_of_points (self, list_of_points):
         
@@ -94,7 +99,38 @@ class Creature:
         print("\n init vel ")
         print(v)"""
                 
+    def fonctionnement_liens (self):
+        # if the two points are not at the correct distance then a force of attraction or repulsion is applied
+        for lien in self.list_of_link:
+            
+            longueur = (lien.A.pos - lien.B.pos).dist()
+        
+            distance_a_rapprocher = longueur - lien.longueur
+            
+            Vect = (lien.B.pos - lien.A.pos) / longueur            
+            
+            lien.A.pos += Vect * (distance_a_rapprocher/2)
+            lien.B.pos -= Vect * (distance_a_rapprocher/2)
+    
+    def traitement_collision (self):
+        # if there is a collision on the replacement points correctly
+        for point1 in self.list_of_points:
+            for point2 in self.list_of_points:
                 
+                if point1 != point2:
+                    if point1.detect_collision(point2):
+                            
+                        point1.solve_collision(point2)
+          
+    def mouvement_creature (self, stepCount, delta_time_produit: float, delta_time_prev):
+        for point in self.list_of_points:
+        
+            point.UpdatePreviousPosFromDeltaTimeQuotient(delta_time_produit / delta_time_prev)
+            
+            if (stepCount > 1) :
+                point.updatePosition(delta_time_produit)
                 
-                
+            else :
+                point.updateEuler(delta_time_produit)    
+            
                     

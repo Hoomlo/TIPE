@@ -3,6 +3,7 @@ from Structure_creature.creature import Creature
 import affichage_initialisation_update.setup
 import affichage_initialisation_update.graphic_display
 import affichage_initialisation_update.updating
+import Structure_creature.animation
 
 WIN_WIDTH = 1250
 WIN_HEIGHT = 720
@@ -149,6 +150,10 @@ class Mygame(arcade.Window):
 
 
 def main():
+    
+    l = animation.generate_list_of_position_for_a_creature(5, [Vect(3, 4), Vect(20, 15)])
+    print(l)
+    
     window = Mygame()
     arcade.run()
 
