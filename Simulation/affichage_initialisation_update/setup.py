@@ -6,7 +6,7 @@ from math import sqrt
 
 def initialiser(creature):
 
-    point1_pos = Vect(450, 600)
+    '''point1_pos = Vect(450, 600)
     point2_pos = Vect(500, 600)
     point3_pos = Vect(550, 600)
         
@@ -22,7 +22,7 @@ def initialiser(creature):
         
     creature.update_list_of_points(list_of_points)
 
-    creature.update_list_of_link()
+    creature.update_list_of_link()'''
         
     creature.newton_sum_of_velocity_nul_on_link()
         

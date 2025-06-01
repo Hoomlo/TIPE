@@ -1,19 +1,35 @@
 from Structure_creature.points import Points
 from Structure_creature.lien import Lien
 from vecteurs import Vect
+import Structure_creature.animation as animation
+import Structure_creature.random_generation as rd_generation
 import random as rd
+import time
+
 
 
 class Creature:
     
     def __init__(self) -> None:
         
-        self.list_of_points = []
-        self.list_of_link = []
+        self.list_of_points = rd_generation.genereate_random_list_of_point()
+        self.list_of_link = rd_generation.generate_random_list_of_link(self.list_of_points)
         
-        self.horloge = rd.random() * 10
+        self.cycle_duration = rd.random() * 10
         self.nb_position = rd.randint(2, 10)
         self.time_between_pos = self.horloge / self.nb_position
+        self.last_pos_update = 0
+        
+        self.next_index_position
+        self.list_of_position = animation.generate_list_of_position_for_a_creature(self.nb_position, self.list_of_points)
+        
+    def changement_de_position(self, simulation_time):
+        
+        for i in range(len(self.list_of_points)):
+            self.list_of_points[i].velocity = self.list_of_position[i][self.actual_index_position]
+        
+        self.last_pos_update = simulation_time
+        self.next_index_position = (self.next_index_position + 1) % self.nb_position
         
     def update_list_of_points (self, list_of_points):
         
@@ -35,8 +51,8 @@ class Creature:
             if self.list_of_points[i] == point:
                 return i
     
-    
     def newton_sum_of_velocity_nul_on_link (self):
+    
         
         sauv_velocity = [point.velocity for point in self.list_of_points] # sauvegarde des vitesse de chaque point
         
@@ -98,19 +114,31 @@ class Creature:
         """v = [s.velocity for s in self.list_of_points]
         print("\n init vel ")
         print(v)"""
-                
-    def fonctionnement_liens (self):
-        # if the two points are not at the correct distance then a force of attraction or repulsion is applied
-        for lien in self.list_of_link:
-            
-            longueur = (lien.A.pos - lien.B.pos).dist()
+    
+    """fonctionnement des créature"""
         
-            distance_a_rapprocher = longueur - lien.longueur
+    def should_update_position(self, simulation_time):
+        
+        if self.last_pos_update + self.time_between_pos >= simulation_time:
+            self.changement_de_position(simulation_time)
+        
+    
+    def fonctionnement_liens (self):
+                
+        # if the two points are not at the correct distance then a force of attraction or repulsion is applied
+        
+        for i in range(10):
+        
+            for lien in self.list_of_link:
+                
+                longueur = (lien.A.pos - lien.B.pos).dist()
             
-            Vect = (lien.B.pos - lien.A.pos) / longueur            
-            
-            lien.A.pos += Vect * (distance_a_rapprocher/2)
-            lien.B.pos -= Vect * (distance_a_rapprocher/2)
+                distance_a_rapprocher = longueur - lien.longueur
+                
+                Vect = (lien.B.pos - lien.A.pos) / longueur            
+                
+                lien.A.pos += Vect * (distance_a_rapprocher/2)
+                lien.B.pos -= Vect * (distance_a_rapprocher/2)
     
     def traitement_collision (self):
         # if there is a collision on the replacement points correctly

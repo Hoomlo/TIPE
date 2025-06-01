@@ -3,7 +3,6 @@ from Structure_creature.creature import Creature
 import affichage_initialisation_update.setup
 import affichage_initialisation_update.graphic_display
 import affichage_initialisation_update.updating
-import Structure_creature.animation
 
 WIN_WIDTH = 1250
 WIN_HEIGHT = 720
@@ -22,11 +21,11 @@ class Mygame(arcade.Window):
         self.creature = Creature()
         affichage_initialisation_update.setup.initialiser(self.creature)
          
-        self.total_time = 0.0
+        self.simulation_time = 0.0
         self.stepCount = 0
         self.delta_time_cst = 0.01
         self.delta_time_var  = 1
-        self.delta_time_produit = self.delta_time_cst * self.delta_time_var
+        self.delta_time_produit = self.delta_time_cst * self.delta_time_var  #delta time utile
         
         """v = [s.velocity for s in self.creature.list_of_points]
         print("\n init vel 2")
@@ -136,6 +135,10 @@ class Mygame(arcade.Window):
         delta_time_prev = self.delta_time_produit
         self.delta_time_produit = self.delta_time_cst * self.delta_time_var
         
+        # mis a jour de la durée
+        
+        self.simulation_time += self.delta_time_produit
+        
         # fin modification delta de temps
         
         affichage_initialisation_update.updating.update(self.creature, self.stepCount, self.delta_time_produit, delta_time_prev)
@@ -150,10 +153,6 @@ class Mygame(arcade.Window):
 
 
 def main():
-    
-    l = animation.generate_list_of_position_for_a_creature(5, [Vect(3, 4), Vect(20, 15)])
-    print(l)
-    
     window = Mygame()
     arcade.run()
 

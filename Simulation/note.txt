@@ -1,0 +1,18 @@
+30 mai 2025:
+
+    modifier le fonctionnement des liens dans creature : ne déplacer qu'un point ? sinon problème sur une list de lien ? marche pas
+    -> essayer de sommez les vitesse sur un lien (verifier si il n'y a pas de conflit avec la première loi de newton)
+    -> régler : je mets a jour plusieurs fois ce qui crée une approximation cohérente
+
+    fin du code sur la génération aléatoire des créature ainsi que de la génération des animations
+
+bilan temporaire:
+
+    - modèle des créature : fini
+    - génération aléatoire des créature : fini
+    - cinématique des créature : fini (changement de position par rapport au temps de la simulation)
+    - milieu aquatique : en cours
+    - système d'évaluation : en cours
+    - enregistrement des créature et des données : pas commencer
+    - système d'évolution : pas commencer
+    - traîtement des données : pas commencer
